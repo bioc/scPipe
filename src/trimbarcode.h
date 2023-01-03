@@ -43,4 +43,36 @@ void paired_fastq_to_bam(char *fq1_fn, char *fq2_fn, char *bam_out, const read_s
 void paired_fastq_to_fastq(char *fq1_fn, char *fq2_fn, char *fq_out, const read_s read_structure, const filter_s filter_settings, const bool write_gz);
 void single_fastq_to_fastq(char *fq1_fn, char *fq_out, const read_s read_structure, const filter_s filter_settings);
 
+std::vector<int> sc_atac_paired_fastq_to_fastq(
+        const char *fq1_fn,
+        std::vector<std::string> fq2_fn_list,
+        const char *fq3_fn,
+		const char *valid_barcode_fn,
+        const char *fq_out,
+        const bool write_gz,
+        const bool rmN,
+        const bool rmlow,
+        int min_qual,
+        int num_below_min,
+		bool no_reverse_complement);
+
+std::vector<int> sc_atac_paired_fastq_to_csv(
+        char *fq1_fn,
+        char *fq3_fn,
+        char *fq_out, 
+        char *bc_fn, 
+		char *valid_barcode_fn,
+        int umi_start,
+        int umi_length,
+        char *umi_in,
+        const bool write_gz,
+        const bool rmN,
+        const bool rmlow,
+        int min_qual,
+        int num_below_min,
+        int id1_st,
+        int id1_len,
+        int id2_st,
+        int id2_len);
+
 #endif
