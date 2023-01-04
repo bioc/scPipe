@@ -58,7 +58,7 @@ validObject <- function(object){
 #'
 #' @return A DataFrame of quality control metrics.
 #' @author Luyi Tian
-#' 
+#'
 #' @importFrom S4Vectors DataFrame SimpleList
 #'
 #' @export
@@ -68,7 +68,7 @@ validObject <- function(object){
 #' data("sc_sample_qc")
 #' sce = SingleCellExperiment(assays = list(counts = as.matrix(sc_sample_data)))
 #' QC_metrics(sce) = sc_sample_qc
-#' 
+#'
 #' head(QC_metrics(sce))
 #'
 QC_metrics.sce <- function(object) {
@@ -110,8 +110,8 @@ setReplaceMethod(
 
 
 #' @title demultiplex_info
-#' 
-#' @description Get or set cell barcode demultiplx results in a SingleCellExperiment object
+#'
+#' @description Get or set cell barcode demultiplex results in a SingleCellExperiment object
 #' @rdname demultiplex_info
 #' @param object A \code{\link{SingleCellExperiment}} object.
 #' @param value Value to be assigned to corresponding object.
@@ -130,7 +130,7 @@ setReplaceMethod(
 #' QC_metrics(sce) = sc_sample_qc
 #' demultiplex_info(sce) = cell_barcode_matching
 #' UMI_dup_info(sce) = UMI_duplication
-#' 
+#'
 #' demultiplex_info(sce)
 #'
 demultiplex_info.sce <- function(object) {
@@ -188,7 +188,7 @@ setReplaceMethod("demultiplex_info",
 #' QC_metrics(sce) = sc_sample_qc
 #' demultiplex_info(sce) = cell_barcode_matching
 #' UMI_dup_info(sce) = UMI_duplication
-#' 
+#'
 #' head(UMI_dup_info(sce))
 #'
 UMI_dup_info.sce <- function(object) {
@@ -244,7 +244,7 @@ setReplaceMethod("UMI_dup_info",
 #' QC_metrics(sce) = sc_sample_qc
 #' demultiplex_info(sce) = cell_barcode_matching
 #' UMI_dup_info(sce) = UMI_duplication
-#' 
+#'
 #' organism(sce)
 #'
 organism.sce <- function(object) {
@@ -296,7 +296,7 @@ setReplaceMethod("organism",signature="SingleCellExperiment",
 #' QC_metrics(sce) = sc_sample_qc
 #' demultiplex_info(sce) = cell_barcode_matching
 #' UMI_dup_info(sce) = UMI_duplication
-#' 
+#'
 #' gene_id_type(sce)
 #'
 gene_id_type.sce <- function(object) {

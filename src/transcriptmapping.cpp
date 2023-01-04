@@ -738,34 +738,6 @@ void Mapping::parse_align_warpper(vector<string> fn_vec, vector<string> cell_id_
 //     }
 // }
 
-        bam1_t *bam_record = bam_init1();
-
-        if (bam_read1(fp, bam_record) >= 0) {
-            string read_header = bam_get_qname(bam_record);
-            int break_pos = read_header.find("#");
-            // start from 1 to exclude @
-            string first_section = read_header.substr(1, break_pos);
-            bool valid_pattern = std::regex_search(first_section, std::regex("[ACTGN]+_[ACRGN]+"));
-            if (!valid_pattern) {
-                throw std::runtime_error("Read header does not contain valid barcode-umi data.");
-            }
-
-            // header has structure {BARCODE}_{UMI}
-            int bc_len = first_section.find("_") + 1;
-            int umi_len = first_section.length() - bc_len - 1;
-
-            std::cout << "detected barcode length: " << bc_len << "\n";
-            std::cout << "detected UMI length: " << umi_len << "\n";
-
-            return std::make_pair(bc_len, umi_len);
-        }
-        else
-        {
-            throw std::runtime_error("BAM file reading failed.");
-        }
-    }
-}
-
 void Mapping::parse_align(string bam_fn, string fn_out, bool m_strand, string map_tag, string gene_tag, string cellular_tag, string molecular_tag, int bc_len, string write_mode, string cell_id, int UMI_len, int nthreads)
 {
 	int unaligned = 0;

@@ -193,7 +193,7 @@ detect_outlier <- function(sce,
 }
 
 
-#' Calcuate QC metrics from gene count matrix
+#' Calculate QC metrics from gene count matrix
 #'
 #' @param sce a \code{SingleCellExperiment} object containing gene counts
 #' @details get QC metrics using gene count matrix.
@@ -436,6 +436,8 @@ plot_mapping <- function(sce,
 #' @param sce a \code{SingleCellExperiment} object
 #'
 #' @return a ggplot2 bar chart
+#'
+#' @importFrom rlang .data
 #' @export
 #'
 #' @examples

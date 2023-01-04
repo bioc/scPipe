@@ -1,5 +1,16 @@
-//trim_barcode
 #include "trimbarcode.h"
+
+#include <string.h>
+#include <set>
+#include <zlib.h> // for reading compressed .fq file
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <Rcpp.h>
+
+#include "config_hts.h"
+#include "utils.h"
+#include "Trie.h"
 
 using namespace Rcpp;
 
@@ -145,6 +156,8 @@ bool check_qual(char *qual_s, int trim_n, int thr, int below_thr)
     return (not_pass > below_thr) ? false : true;
 }
 
+
+
 bool N_check(char *seq, int trim_n)
 {
     bool pass = true;
@@ -159,6 +172,8 @@ bool N_check(char *seq, int trim_n)
     }
     return pass;
 }
+
+
 
 void kseq_t_to_bam_t(kseq_t *seq, bam1_t *b, int trim_n)
 {
@@ -194,6 +209,9 @@ void kseq_t_to_bam_t(kseq_t *seq, bam1_t *b, int trim_n)
         s[i] = seq->qual.s[i + trim_n]-33;
     }
 }
+
+
+
 
 void paired_fastq_to_bam(char *fq1_fn, char *fq2_fn, char *bam_out, const read_s read_structure, const filter_s filter_settings)
 {
@@ -387,6 +405,9 @@ void paired_fastq_to_bam(char *fq1_fn, char *fq2_fn, char *bam_out, const read_s
     Rcpp::Rcout << "removed_low_qual: " << removed_low_qual << "\n";
 }
 
+
+
+
 void fq_write(std::ofstream& o_stream, kseq_t *seq, int trim_n)
 {
     o_stream << "@" << seq->name.s << "\n" << 
@@ -394,6 +415,9 @@ void fq_write(std::ofstream& o_stream, kseq_t *seq, int trim_n)
         "+" << "\n" << 
         (seq->qual.s+trim_n) << "\n";
 }
+
+
+
 
 void fq_gz_write(gzFile out_file, kseq_t *seq, int trim_n) {
     std::stringstream stream;
@@ -403,6 +427,9 @@ void fq_gz_write(gzFile out_file, kseq_t *seq, int trim_n) {
         (seq->qual.s+trim_n) << "\n";
     gzputs(out_file, stream.str().c_str());
 }
+
+
+
 
 void paired_fastq_to_fastq(
     char *fq1_fn,
@@ -518,6 +545,13 @@ void paired_fastq_to_fastq(
     while (((l1 = kseq_read(seq1)) >= 0) && ((l2 = kseq_read(seq2)) >= 0))
     {
         if (++_interrupt_ind % 4096 == 0) checkUserInterrupt();
+
+        // validity of input parameters against length of read
+        if (id2_st + id2_len > l2) continue; // check for barcode in read 2
+        // check and test if barcode in read 1 is beyond read 1 length
+        if ((state == TWO_INDEX_NO_UMI || state == TWO_INDEX_WITH_UMI) && (id1_st + id1_len > l1)) continue; 
+        // check for a UMI if we have it
+        if ((state == TWO_INDEX_WITH_UMI || state == ONE_INDEX_WITH_UMI) && (umi_st + umi_len > l2)) continue;
 
         // qual check before we do anything
         if (filter_settings.if_check_qual)
