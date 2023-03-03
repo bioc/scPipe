@@ -1,6 +1,6 @@
 #include "trimbarcode.h"
 
-#include <string.h>
+#include <string>
 #include <set>
 #include <zlib.h> // for reading compressed .fq file
 #include <stdio.h>
@@ -656,8 +656,34 @@ bool sc_atac_check_qual(const char *qual_s, int trim_n, int thr, int below_thr){
     return (not_pass > below_thr) ? false : true;
 }
 
+// copy a sequence into the name part of a kseq_t
+// used for taking a barcode sequence from a fastq file and prefixing each name in another fastq file
+void copySequenceIntoKseqName(kseq_t *seqNameDestination, const char *seqToCopy, size_t copyLength) {
+	const int new_name_length = seqNameDestination->name.l + copyLength + 1;
+	// allocate additional memory and move original read name
 
+	std::string newName;
+	newName.reserve(new_name_length);
+	newName += seqToCopy;
+	newName += "#";
+	newName += seqNameDestination->name.s;
 
+	// copy the new name back into the kseq_t
+	free(seqNameDestination->name.s);
+	seqNameDestination->name.l = new_name_length;
+	seqNameDestination->name.s = (char *)malloc((newName.size() + 1) * sizeof(char));
+	strcpy(seqNameDestination->name.s, newName.c_str());
+	
+	// old code
+	// seqNameDestination->name.s = (char *)realloc(seqNameDestination->name.s, new_name_length);
+	// memmove(seqNameDestination->name.s + copyLength + 1, seqNameDestination->name.s, seqNameDestination->name.l * sizeof(char));
+	// // copy the sequence into the new name array
+	// memcpy(seqNameDestination->name.s, seqToCopy, copyLength * sizeof(char));
+	// // add separator
+	// seqNameDestination->name.s[copyLength] = '#';
+	// // is this necessary?
+	// seqNameDestination->name.s[new_name_length] = '\0';
+}
 
 // sc_atac_paired_fastq_to_fastq ------------------
 
@@ -674,7 +700,6 @@ std::vector<int> sc_atac_paired_fastq_to_fastq(
         int num_below_min,
 		bool no_reverse_complement
 ) {
-    
     // // get rid of kseq.h warnings
     // REMOVE_KSEQ_WARNINGS();
 
@@ -814,17 +839,15 @@ std::vector<int> sc_atac_paired_fastq_to_fastq(
         for (int i=0; i<(int)seq2_list.size(); i++) {
 			// grab the current kseq_t fastq read
             kseq_t* seq2 = seq2_list[i];
-            if ((l2 = kseq_read(seq2)) >= 0) {
-                //char * const seq2_name = seq2->name.s;
-                const char * seq2_seq = seq2->seq.s; // nonconst pointer to const char, important as we redirect the pointer
-				// if we match to a new barcode when doing barcode mismatch
-				const char * const seq2_qual = seq2->qual.s;
-                //int seq2_namelen = seq2->name.l;
-                int seq2_seqlen = seq2->seq.l;
-
-                // Rcout << "seq2_seq: " << seq2_seq << std::endl << std::endl;
-                seq_2_set.insert(std::string{seq2_seq});
-                // Rcout << "seq_2_set size: " << seq_2_set.size() << std::endl << std::endl;
+            if ((l2 = kseq_read(seq2)) < 0) {
+				Rcpp::Rcout << "read1 file is not the same length as the barcode fastq file.\n";
+				break;
+			}
+			
+			// nonconst pointer to const char, important as we redirect the pointer
+			const char * seq2_seq = seq2->seq.s; // if we match to a new barcode when doing barcode mismatch
+			
+			seq_2_set.insert(std::string{seq2_seq});
 
 				// quality check before the heavy work of shifting barcodes around is done. Early break
 				if(rmlow) {
@@ -886,25 +909,12 @@ std::vector<int> sc_atac_paired_fastq_to_fastq(
 					barcodeExact++;
 				}
 
-                const int new_name_length1 = seq1_namelen + seq2_seqlen+1;
-                seq1->name.s = (char*)realloc(seq1->name.s, new_name_length1); // allocate additional memory
-                memmove(seq1_name + seq2_seqlen+1, seq1_name, seq1_namelen * sizeof(char));// move original read name
-                memcpy(seq1_name, seq2_seq, seq2_seqlen * sizeof(char)); // copy index one
-                seq1_name[seq2_seqlen] = '#'; // add separator
-                seq1_name[new_name_length1] = '\0';
-                
-                if(R3){
-                    const int new_name_length2 = seq3_namelen + seq2_seqlen+1;
-                    seq3->name.s = (char*)realloc(seq3->name.s, new_name_length2); // allocate additional memory
-                    memmove(seq3_name + seq2_seqlen+1, seq3_name, seq3_namelen * sizeof(char));// move original read name
-                    memcpy(seq3_name, seq2_seq, seq2_seqlen * sizeof(char)); // copy index one
-                    seq3_name[seq2_seqlen] = '#'; // add separator  
-                    seq3_name[new_name_length1] = '\0';
-                    
-                }
-            } else {
-                Rcpp::Rcout << "read1 file is not the same length as the barcode fastq file: " << "\n";
-            }
+			copySequenceIntoKseqName(seq1, seq2_seq, seq2->seq.l);
+
+			if (R3) {
+				copySequenceIntoKseqName(seq3, seq2_seq, seq2->seq.l);
+			}
+            
 		}
 
 
