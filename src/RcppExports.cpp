@@ -310,7 +310,7 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP run_testthat_tests(SEXP);
+RcppExport SEXP run_testthat_tests(void *);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_scPipe_check_barcode_reads", (DL_FUNC) &_scPipe_check_barcode_reads, 7},
