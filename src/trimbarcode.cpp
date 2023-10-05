@@ -861,8 +861,8 @@ std::vector<int> sc_atac_paired_fastq_to_fastq(
 						seq2_seq;
 				
 				std::vector<MismatchResult> possibleBarcodes = validBarcodeTrie.Locate_Seq_Mismatches(seq2_seq_str, 0, seq2_seq_str.size());
-				// // find the barcode which matches best (highest chance of matching perfectly based quality score)
-				int highestScore = 0;
+				// // find the barcode which matches best (highest chance of having a mismatch at the indicated position based on the Q score, with lower Q scores indicating a higher probability of an incorrect base)
+				int lowestScore = 0;
 				int barcodePosition = -1;
 				bool exactMatch = false;
 				for (const MismatchResult &match : possibleBarcodes) {
@@ -874,8 +874,8 @@ std::vector<int> sc_atac_paired_fastq_to_fastq(
 						break;
 					}
 					int thisQual = (int)seq2->qual.s[match.mismatchPosition] - 33; // fastq qscores are ASCII 33 to 126
-					if (thisQual > highestScore) {
-						highestScore = thisQual;
+					if (thisQual < lowestScore) {
+						lowestScore = thisQual;
 						barcodePosition = match.sequenceIndex;
 					}
 				}
