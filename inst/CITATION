@@ -10,3 +10,15 @@ citEntry(
     publisher="Public Library of Science",
     textVersion = "Tian, L., Su, S., Dong, X., Amann-Zalcenstein, D., Biben, C., Seidi, A., ... & Ritchie, M. E. (2018). scPipe: A flexible R/Bioconductor preprocessing pipeline for single-cell RNA-sequencing data. PLoS computational biology, 14(8), e1006361."
 )
+
+citEntry(
+    entry = "article",
+    author = "Shanika L. Amarasinghe and Phil Yang and Oliver Voogd and Haoyu Yang and Mei R. M. Du and Shian Su and Daniel V. Brown and Jafar S. Jabbari and Rory Bowden and Matthew E. Ritchie",
+    title = "scPipe: An extended preprocessing pipeline for comprehensive single-cell ATAC-Seq data integration in R/Bioconductor",
+    year = "2023",
+    doi = "10.1101/2023.09.25.559230",
+    publisher = "Cold Spring Harbor Laboratory",
+    URL = "https://www.biorxiv.org/content/early/2023/09/25/2023.09.25.559230",
+    journal = "bioRxiv",
+    textVersion = "Amarasinghe, S. L., Yang, P., Voogd, O., Yang, H., Du, M., Su, S., ... & Ritchie, M. E. (2023). scPipe: An extended preprocessing pipeline for comprehensive single-cell ATAC-Seq data integration in R/Bioconductor. bioRxiv, 2023-09."
+)
