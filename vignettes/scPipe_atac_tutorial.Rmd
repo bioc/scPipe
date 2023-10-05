@@ -1,12 +1,12 @@
 ---
-title: "scPipe: a flexible data preprocessing pipeline for single-cell data"
+title: "scPipe: a flexible data preprocessing pipeline for scATAC-seq data"
 author: "Shani Amarasinghe, Phil Yang"
 date: "`r Sys.Date()`"
 output: 
     BiocStyle::html_document:
         toc_float: true
 vignette: >
-  %\VignetteIndexEntry{scPipe: a flexible data preprocessing pipeline for single-cell data}
+  %\VignetteIndexEntry{scPipe: a flexible data preprocessing pipeline for scATAC-seq data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
