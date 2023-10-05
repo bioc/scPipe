@@ -198,7 +198,7 @@ void GeneAnnotation::parse_anno_entry(
 				err_msg << "cannot find grandparent for exon:"
 						<< "\n";
 				err_msg << line << "\n";
-				stop(err_msg.str());
+				Rcpp::stop(err_msg.str());
 			}
 		}
 		else if (is_transcript(fields, attributes))
@@ -420,8 +420,10 @@ void GeneAnnotation::parse_saf_dataframe(DataFrame anno_df, bool fix_chrname)
 		std::string const &chr = as<std::string>(chrs[i]);
 		int start = starts[i];
 		int end = ends[i];
-		int const &strand = strands[i] == "+" ? 1 : strands[i] == "-" ? -1
-																	  : 0;
+		int const &strand = 
+			strands[i] == "+" ? 1 : 
+			strands[i] == "-" ? -1 :
+			0;
 
 		if (fix_chrname)
 		{
@@ -680,7 +682,7 @@ void Mapping::parse_align_warpper(vector<string> fn_vec, vector<string> cell_id_
 			err_msg << "size of bam file and cell id vector should be the same: \n";
 			err_msg << "\t number of bam files: " << fn_vec.size() << "\n";
 			err_msg << "\t number of cell ids: " << cell_id_vec.size() << "\n";
-			stop(err_msg.str());
+			Rcpp::stop(err_msg.str());
 		}
 		if (bc_len == 0)
 		{
@@ -786,7 +788,7 @@ void Mapping::parse_align(string bam_fn, string fn_out, bool m_strand, string ma
 		stringstream err_msg;
 		err_msg << "ERROR: The annotation and .bam file contains different chromosome."
 				<< "\n";
-		stop(err_msg.str());
+		Rcpp::stop(err_msg.str());
 	}
 	uint8_t *c_cell_id = const_cast<uint8_t *>(reinterpret_cast<const uint8_t *>(cell_id.c_str()));
 	// for moving barcode and UMI from sequence name to bam tags
@@ -893,7 +895,7 @@ void Mapping::parse_align(string bam_fn, string fn_out, bool m_strand, string ma
 			stringstream err_msg;
 			err_msg << "fail to write the bam file: " << bam_get_qname(b) << "\n";
 			err_msg << "return code: " << re << "\n";
-			stop(err_msg.str());
+			Rcpp::stop(err_msg.str());
 		}
 	}
 
@@ -1077,7 +1079,7 @@ void Mapping::sc_atac_parse_align(string bam_fn, string fn_out, string cellular_
 			stringstream err_msg;
 			err_msg << "fail to write the bam file: " << bam_get_qname(b) << "\n";
 			err_msg << "return code: " << re << "\n";
-			stop(err_msg.str());
+			Rcpp::stop(err_msg.str());
 		}
 	}
 
