@@ -225,6 +225,6 @@ char* str_shift(char *str, const int shift) {
     // set NULL termination
     new_str[len + shift] = '\0';
     // shift content to the right
-    strncpy(new_str + shift, new_str, len);
+    std::memmove(new_str + shift, new_str, len+1);
     return new_str;
 }

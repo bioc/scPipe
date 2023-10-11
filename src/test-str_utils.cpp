@@ -6,7 +6,7 @@
 context("String memory functions") {
     test_that("String memory allocation works") {
         char* str = str_alloc(10);
-        std::strncpy(str, "abcdefghij", 10);
+        std::memcpy(str, "abcdefghij", 11);
         
         Rcpp::Rcout << str << " " << strlen(str) << std::endl;
 
@@ -24,7 +24,7 @@ context("String memory functions") {
     
     test_that("String memory reallocation works") {
         char* str = str_alloc(10);
-        std::strncpy(str, "abcdefghij", 10);
+        std::memcpy(str, "abcdefghij", 11);
         str = str_realloc(str, 15);
         
         // check that string has been retained in reallocated memory
@@ -39,7 +39,7 @@ context("String memory functions") {
     
     test_that("String shifting works") {
         char* str = str_alloc(10);
-        std::strncpy(str, "abcdefghij", 10);    
+        std::memcpy(str, "abcdefghij", 11);   
         str = str_shift(str, 5);
         
         // check that string has been shifted
