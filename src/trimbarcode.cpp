@@ -347,11 +347,11 @@ void paired_fastq_to_bam(char *fq1_fn, char *fq2_fn, char *bam_out, const read_s
 
         // move original read name
         int new_name_length = name_offset + seq1->name.l;
-        char* old_name_adr = seq1->name.s;
-        char* new_name_adr = old_name_adr + name_offset;
         int n_char_copied = seq1->name.l * sizeof(char);
-        seq1->name.s = (char*)realloc(old_name_adr, new_name_length);
-        memcpy(new_name_adr, old_name_adr, n_char_copied);
+        
+        seq1->name.s = str_realloc(seq1->name.s, new_name_length);
+        char* new_name_adr = seq1->name.s + name_offset;
+        memcpy(new_name_adr, seq1->name.s, n_char_copied);
 
         if (state == TWO_INDEX_WITH_UMI)
         {
@@ -575,7 +575,7 @@ void paired_fastq_to_fastq(
         passed_reads++;
 
         const int new_name_length = name_offset + seq1->name.l + 1;
-        seq1->name.s = (char*)realloc(seq1->name.s, new_name_length); // allocate additional memory
+        seq1->name.s = str_realloc(seq1->name.s, new_name_length); // allocate additional memory
 
         const int name_size = seq1->name.l + 1; // +1 for the null byte
         char * const seq1_name = seq1->name.s;
@@ -669,7 +669,7 @@ void copySequenceIntoKseqName(kseq_t *seqNameDestination, const char *seqToCopy,
 	// copy the new name back into the kseq_t
 	free(seqNameDestination->name.s);
 	seqNameDestination->name.l = new_name_length;
-	seqNameDestination->name.s = (char *)malloc((newName.size() + 1) * sizeof(char));
+	seqNameDestination->name.s = str_alloc(newName.size());
 	strcpy(seqNameDestination->name.s, newName.c_str());
 	
 	// old code
@@ -1263,7 +1263,7 @@ std::vector<int> sc_atac_paired_fastq_to_csv(
         } // end if(rmN)
 
 		// allocate and copy just the barcode, to check against the barcodes in the barcode map
-        char *barcode = (char *)malloc((id1_len + 1) * sizeof(char));
+        char *barcode = str_alloc(id1_len);
         memcpy( barcode, seq1->seq.s + id1_st, id1_len); 
         barcode[id1_len] = '\0'; 
         
@@ -1323,14 +1323,14 @@ std::vector<int> sc_atac_paired_fastq_to_csv(
         int bcUMIlen1 = 0;
         if(isUMIR1){ // create subStr1 of barcode concatenated with UMI, seperated by '_'
             bcUMIlen1 = id1_len + umi_length + 1;
-            subStr1 = (char *)malloc(bcUMIlen1 + 1); // additional space for zero terminator
+            subStr1 = str_alloc(bcUMIlen1);
             memcpy(subStr1, barcode, id1_len);
             subStr1[id1_len] = '_'; 
             memcpy(subStr1 + id1_len + 1, seq1->seq.s + umi_start, umi_length); 
             subStr1[bcUMIlen1] = '\0';
         } else { // create subStr1 of barcode sequence
             bcUMIlen1 = id1_len;
-            subStr1 = (char *)malloc(bcUMIlen1 + 1); // additional space for zero terminator
+            subStr1 = str_alloc(bcUMIlen1);
             memcpy(subStr1, barcode, id1_len); 
             subStr1[bcUMIlen1] = '\0';
         }
@@ -1339,7 +1339,7 @@ std::vector<int> sc_atac_paired_fastq_to_csv(
 
         // if the barcode matches exactly or inexactly, write the modifiyed sequence lines to the output file
         const int new_name_length1 = seq1->name.l + bcUMIlen1 + 1;
-        seq1->name.s = (char*)realloc(seq1->name.s, new_name_length1 + 1); // allocate additional memory
+        seq1->name.s = str_realloc(seq1->name.s, new_name_length1); // allocate additional memory
         memmove(seq1->name.s + bcUMIlen1 + 1, seq1->name.s, seq1->name.l);// move original read name from second arg to first arg
         memcpy(seq1->name.s, subStr1, bcUMIlen1 * sizeof(char)); // copy index one
         seq1->name.s[bcUMIlen1] = '#'; // add separator
@@ -1349,7 +1349,7 @@ std::vector<int> sc_atac_paired_fastq_to_csv(
         memmove(seq1->seq.s, seq1->seq.s + bc1_end, seq1->name.l - bc1_end);   
         
         if(R3) {
-			char *barcode3 = (char *)malloc((id2_len + 1) * sizeof(char));
+			char *barcode3 = str_alloc(id2_len);
             memcpy( barcode3, seq3->seq.s + id2_st, id2_len);
             barcode3[id2_len] = '\0';
 
@@ -1402,14 +1402,14 @@ std::vector<int> sc_atac_paired_fastq_to_csv(
             int bcUMIlen3 = 0;
             if (isUMIR2) {
                 bcUMIlen3 = id2_len + umi_length +1;
-                subStr3 = (char*)malloc(bcUMIlen3 + 1); // additional space for zero terminator
+                subStr3 = str_alloc(bcUMIlen3); // additional space for zero terminator
                 memcpy(subStr3, barcode3, id2_len);
                 subStr3 [id2_len] = '_';
                 memcpy(subStr3 + id2_len + 1, seq3->seq.s + umi_start, umi_length);
                 subStr3[bcUMIlen3] = '\0';          
             } else {
                 bcUMIlen3 = id2_len;
-                subStr3 = (char*)malloc(bcUMIlen3 + 1); // additional space for zero terminator
+                subStr3 = str_alloc(bcUMIlen3); // additional space for zero terminator
                 memcpy( subStr3, barcode3, id2_len );
                 subStr3[bcUMIlen3] = '\0';
             }
@@ -1417,7 +1417,7 @@ std::vector<int> sc_atac_paired_fastq_to_csv(
             
 
             const int new_name_length1 = seq3->name.l + bcUMIlen3 + 1;
-            seq3->name.s = (char*)realloc(seq3->name.s, new_name_length1 + 1); // allocate additional memory
+            seq3->name.s = str_realloc(seq3->name.s, new_name_length1); // allocate additional memory
             memmove(seq3->name.s + bcUMIlen3+1, seq3->name.s, seq3->name.l);// move original read name
             memcpy(seq3->name.s, subStr3, bcUMIlen3 * sizeof(char)); // copy index one
             seq3->name.s[bcUMIlen3] = '#'; // add separator

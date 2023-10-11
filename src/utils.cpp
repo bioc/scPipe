@@ -185,3 +185,46 @@ void openFile(gzFile &o_stream_gz_R1,std::ofstream &o_stream_R1,char* fqoutR1, b
         }
     }
 }
+
+// allocate memory for a string
+char* str_alloc(const int len) {
+    if (len < 0) {
+        Rcpp::stop("Negative string length");
+    }
+    char *str = (char *)malloc((len + 1) * sizeof(char));
+    if (str == NULL) {
+        Rcpp::stop("Out of memory");
+    }
+    str[len] = '\0';
+    return str;
+}
+
+// reallocate memory for a string
+char* str_realloc(char *str, const int len) {
+    if (len < 0) {
+        Rcpp::stop("Negative string length");
+    }
+    char *new_str = (char *)realloc(str, (len + 1) * sizeof(char));
+    if (new_str == NULL) {
+        Rcpp::stop("Out of memory");
+    }
+    // zero out newly allocated memory
+    return new_str;
+}
+
+// shift string to the right
+char* str_shift(char *str, const int shift) {
+    if (shift < 0) {
+        Rcpp::stop("Negative shift length");
+    }
+    const int len = strlen(str);
+    char *new_str = (char *)str_realloc(str, len + shift);
+    if (new_str == NULL) {
+        Rcpp::stop("Out of memory");
+    }
+    // set NULL termination
+    new_str[len + shift] = '\0';
+    // shift content to the right
+    strncpy(new_str + shift, new_str, len);
+    return new_str;
+}
