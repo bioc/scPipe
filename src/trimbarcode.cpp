@@ -350,8 +350,7 @@ void paired_fastq_to_bam(char *fq1_fn, char *fq2_fn, char *bam_out, const read_s
         int n_char_copied = seq1->name.l * sizeof(char);
         
         seq1->name.s = str_realloc(seq1->name.s, new_name_length);
-        char* new_name_adr = seq1->name.s + name_offset;
-        memcpy(new_name_adr, seq1->name.s, n_char_copied);
+        memmove(seq1->name.s + name_offset, seq1->name.s, n_char_copied);
 
         if (state == TWO_INDEX_WITH_UMI)
         {
