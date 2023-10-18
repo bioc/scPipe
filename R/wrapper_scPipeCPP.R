@@ -65,8 +65,12 @@ sc_trim_barcode <- function(outfq, r1, r2=NULL,
                                 rmlow=TRUE, rmN=TRUE, minq=20, numbq=2)) {
 
     outdir <- regmatches(outfq, regexpr(".*/", outfq))
-    if (outdir != character(0) && !dir.exists(outdir))
+    
+    stopifnot(rlang::is_string(outdir))
+    
+    if (!dir.exists(outdir)) {
         dir.create(outdir, recursive = TRUE)
+    }
 
     if (filter_settings$rmlow) {
         i_rmlow <- 1

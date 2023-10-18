@@ -17,19 +17,19 @@
 class FragmentThread {
 	public:
 		FragmentThread(
-			std::string,
-			std::string,
-			int,
-			unsigned int,
-			std::string,
-			bam_header_t *,
-			unsigned int,
-			std::string,
-			std::string,
-			std::vector<std::string>,
-			unsigned int,
-			unsigned int,
-			unsigned int
+			std::string _fragfile,
+			std::string _contig,
+			int _tid,
+			unsigned int _end,
+			std::string _bam,
+			bam_header_t *_bam_header,
+			unsigned int _min_mapq,
+			std::string _cellbarcode,
+			std::string _readname_barcode,
+			std::vector<std::string> _cells,
+			unsigned int _max_distance,
+			unsigned int _min_distance,
+			unsigned int _chunksize
 		);
 
 		FragmentThread(const FragmentThread &);
