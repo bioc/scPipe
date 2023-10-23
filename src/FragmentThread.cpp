@@ -3,7 +3,6 @@
 #include <Rcpp.h>
 #include <string>
 #include <cstring>
-#include <cstdlib>
 #include <sstream>
 #include <regex>
 #include <map>
@@ -49,7 +48,7 @@ FragmentThread::FragmentThread(
 	this->max_distance = _max_distance;
 	this->min_distance = _min_distance;
 	this->chunksize = _chunksize;
-	
+
 	this->fragment_count = 0;
 
 	this->fragfile.setFile(_fragfile);
@@ -70,7 +69,7 @@ FragmentThread::FragmentThread(const FragmentThread &old) {
 	this->max_distance = old.max_distance;
 	this->min_distance = old.min_distance;
 	this->chunksize = old.chunksize;
-	
+
 	this->fragment_count = old.fragment_count;
 
 	this->fragment_dict = FragmentMap(old.fragment_dict);
@@ -101,7 +100,7 @@ FragmentThread::updateFragmentDict(const bam1_t *seqment) {
 		std::regex_search(qname, res, readname_regex);
 
 		cell_barcode = *(res.begin()); // begin() is first match
-	
+
 	} else {
 		// get the tag data associated with the specified tag
 		// default for cellbarcode is "CB". Must be 2 characters
@@ -205,7 +204,7 @@ FragmentThread::addToFragments(
 				}
 			}
 		} else {
-			// augment an existing fragment, using a non reversed fragment 
+			// augment an existing fragment, using a non reversed fragment
 			// (using rstart to augment existing fragment start)
 			int32_t current_coord = fragment_dict[qname].end;
 			if (current_coord == -1) {
@@ -257,7 +256,7 @@ FragmentThread::operator() () {
 
 	bam_fetch(bam, index, this->tid, 0, this->end, this, &FragmentThread::fetchCall);
 
-	// for the final writeFragments call, pass in inf 
+	// for the final writeFragments call, pass in inf
 	this->completeCollapseAndWriteFragments(4294967295); // 4294967295 is max unsigned int
 
 	bam_close(bam); // bam.h
@@ -299,7 +298,7 @@ int
 FragmentThread::fetchCall(const bam1_t *b, void *data) {
 	FragmentThread *frag = (FragmentThread *)data;
 
-	// update the fragment map with this segments data 
+	// update the fragment map with this segments data
 	// retrived from the bam1_t aligned segment
 	frag->updateFragmentDict(b);
 
@@ -323,21 +322,21 @@ FragmentThread::collapseFragments(FragmentMap &fragments) {
 	if (counts.size() == 0) return std::vector<FragmentStruct> {};
 
 	// map of fragment information associated with indices
-	std::map<std::string, int> *frag_id_lookup = 
-		id_lookup(fragments, 
-					[](FragmentStruct frag)->std::string { 
+	std::map<std::string, int> *frag_id_lookup =
+		id_lookup(fragments,
+					[](FragmentStruct frag)->std::string {
 						std::stringstream ss;
 						ss << frag.chromosome << "|" << frag.start << "|" << frag.end;
 						return ss.str();
 					}
 	);
 	// map of barcode information associated with indices
-	std::map<std::string, int> *bc_id_lookup = 
+	std::map<std::string, int> *bc_id_lookup =
 		id_lookup(fragments,
 					[](FragmentStruct frag)->std::string {
 						return frag.cell_barcode;
 					}
-	); 
+	);
 
 	counts = collapseOverlapFragments(counts, true);
 	counts = collapseOverlapFragments(counts, false);
@@ -367,7 +366,7 @@ FragmentThread::collapseFragments(FragmentMap &fragments) {
 		}
 
 	}
-	
+
 	std::map<int, std::string> frag_inverse = invertMap(frag_id_lookup);
 	std::map<int, std::string> bc_inverse = invertMap(bc_id_lookup);
 
@@ -394,11 +393,11 @@ FragmentThread::collapseFragments(FragmentMap &fragments) {
 		frag.sum = row_sum[it.first];
 		collapsed.push_back(frag);
 	}
-	
+
 	delete frag_id_lookup;
 	delete bc_id_lookup;
 
-	return collapsed; 
+	return collapsed;
 }
 
 
@@ -422,7 +421,7 @@ FragmentThread::findCompleteFragments(unsigned int current_position){
 				to_erase.push_back(item.first);
 			}
 		} else {
-			// remove incomplete fragments that are 
+			// remove incomplete fragments that are
 			// too far away to ever be complete
 			if (item.second.start == -1) {
 				if (item.second.end + d < current_position) {
@@ -458,9 +457,9 @@ FragmentThread::collapseOverlapFragments(std::map<std::string, int> &counts, boo
 
 	// startFrags is a map of keys (where key is "chromosome+start|end+cell_barcode")
 	// and where value is a list of FragmentStructs at that position
-	std::map<std::string, std::vector<std::string>> startFrags = 
+	std::map<std::string, std::vector<std::string>> startFrags =
 		FragmentThread::createPositionLookup(counts, start);
-	
+
 	for (auto frag : startFrags) {
 		// frag.first is string key
 		// frag.second is forward list of strings of full fragments (fullfrags)
@@ -497,7 +496,7 @@ FragmentThread::collapseOverlapFragments(std::map<std::string, int> &counts, boo
 /// only entries where >1 full fragments share the same coordinate are retained.
 /// @param fragments is the FragmentMap containing all fragments
 /// @param start indicates if start should be retained. If False, end is retained
-std::map<std::string, std::vector<std::string>> 
+std::map<std::string, std::vector<std::string>>
 FragmentThread::createPositionLookup(std::vector<std::string> &frags, bool start) {
 
 	std::vector<FragmentStruct> fragsplit;
@@ -509,7 +508,7 @@ FragmentThread::createPositionLookup(std::vector<std::string> &frags, bool start
 		posfrags.push_back(FragToString(it, true, start, !start, true));
 	}
 
-	std::map<std::string, int> counts = 
+	std::map<std::string, int> counts =
 		FragmentThread::CounterMapString(posfrags);
 
 	std::map<std::string, std::vector<std::string>> starts;

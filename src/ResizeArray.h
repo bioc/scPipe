@@ -1,6 +1,9 @@
 #ifndef RESIZEARRAY_H
 #define RESIZEARRAY_H
 
+#include <iostream>
+#include <Rcpp.h>
+
 class ResizeArray {
         void Expand(void);
         long *arr;

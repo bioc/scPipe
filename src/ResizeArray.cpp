@@ -1,5 +1,3 @@
-#include <iostream>
-#include <Rcpp.h>
 #include "ResizeArray.h"
 
 ResizeArray::ResizeArray(int len) {

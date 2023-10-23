@@ -1,10 +1,3 @@
-#include <mutex>
-#include <string>
-#include <vector>
-
-#include <Rcpp.h>
-
-#include "Fragments.h"
 #include "ThreadOutputFile.h"
 
 ThreadOutputFile::ThreadOutputFile() {

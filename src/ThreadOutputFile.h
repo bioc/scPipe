@@ -6,6 +6,7 @@
 #include <mutex>
 #include <fstream>
 
+#include <Rcpp.h>
 #include "Fragments.h"
 
 
