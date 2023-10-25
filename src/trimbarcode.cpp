@@ -3,7 +3,6 @@
 #include <string>
 #include <set>
 #include <zlib.h> // for reading compressed .fq file
-#include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <Rcpp.h>

@@ -5,7 +5,6 @@
 #include <thread>
 #include <string>
 #include <fstream>
-#include <cstdio>
 #include <memory>
 
 #include "bam.h"

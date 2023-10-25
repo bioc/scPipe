@@ -2,8 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <stdio.h>
-#include <stdlib.h>
 #include <zlib.h>
 #include "Trie.h"
 #include "ResizeArray.h"
