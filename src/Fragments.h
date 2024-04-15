@@ -36,6 +36,7 @@ Now, valid input can be checked by the returning string's length
 #define FRAGMENTS_HEADER
 #include <string>
 #include <map>
+#include <cstdint>
 
 struct FragmentStruct {
 	std::string chromosome;			// 0
