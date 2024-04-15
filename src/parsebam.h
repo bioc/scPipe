@@ -1,3 +1,6 @@
+#ifndef PARSEBAM_H
+#define PARSEBAM_H
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -11,9 +14,6 @@
 #include "utils.h"
 #include "cellbarcode.h"
 #include "htslib/thread_pool.h"
-
-#ifndef PARSEBAM_H
-#define PARSEBAM_H
 
 // overall_count_stat: count statistics for all cells
 // chr_aligned_stat: per chromosome count

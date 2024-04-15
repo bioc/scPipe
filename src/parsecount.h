@@ -1,3 +1,6 @@
+#ifndef PARSECOUNT_H
+#define PARSECOUNT_H
+
 // parsecount.h
 #include <string>
 #include <vector>
@@ -9,9 +12,6 @@
 #include <Rcpp.h>
 #include "utils.h"
 #include "cellbarcode.h"
-
-#ifndef PARSECOUNT_H
-#define PARSECOUNT_H
 
 const int MAX_UMI_DUP = 1000;
 

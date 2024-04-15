@@ -1,7 +1,6 @@
 #ifndef FRAGMENT_THREAD_H
 #define FRAGMENT_THREAD_H
 
-
 #include <string>
 #include <map>
 #include <vector>
@@ -12,7 +11,6 @@
 #include <htslib/sam.h>
 #include "ThreadOutputFile.h"
 #include "Fragments.h"
-
 
 class FragmentThread {
 	public:

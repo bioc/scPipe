@@ -1,3 +1,6 @@
+#ifndef CELLBARCODE_H
+#define CELLBARCODE_H
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -10,8 +13,6 @@
 #include <Rcpp.h>
 #include "utils.h"
 
-#ifndef CELLBARCODE_H
-#define CELLBARCODE_H
 // a class that stores cellular barcode annotation and
 // find close barcode for a given sequence
 class Barcode

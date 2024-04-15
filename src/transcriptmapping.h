@@ -1,5 +1,5 @@
-// transcriptmapping.h
-//
+#ifndef TRANSCRIPTMAPPING_H
+#define TRANSCRIPTMAPPING_H
 
 #include <algorithm>
 #include <atomic>
@@ -19,9 +19,6 @@
 #include "Gene.h"
 #include "Interval.h"
 #include "Timer.h"
-
-#ifndef TRANSCRIPTMAPPING_H
-#define TRANSCRIPTMAPPING_H
 
 class GeneBin {
 using ull_int = unsigned long long;

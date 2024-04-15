@@ -1,3 +1,6 @@
+#ifndef UTILS_H
+#define UTILS_H
+
 // general functions
 #include <string>
 #include <fstream>
@@ -11,10 +14,6 @@
 #include "config_hts.h"
 #include "Gene.h"
 #include "global_config.h"
-
-
-#ifndef UTILS_H
-#define UTILS_H
 
 typedef std::pair<std::string, int> umi_pos_pair;
 

@@ -11,8 +11,6 @@
 #include "config_hts.h"
 #include "utils.h"
 
-
-
 std::unordered_map<std::string, int> summarize_barcode(
     std::string filename,
     int bc_len,
