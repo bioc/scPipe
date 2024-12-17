@@ -19,7 +19,6 @@ Depends:
 LinkingTo:
     Rcpp,
     Rhtslib (>= 1.13.1),
-    zlibbioc,
     testthat
 Imports:
     AnnotationDbi,
