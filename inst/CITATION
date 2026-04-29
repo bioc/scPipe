@@ -1,24 +1,51 @@
-citEntry(
-    entry = "article",
-    title="scPipe: A flexible R/Bioconductor preprocessing pipeline for single-cell RNA-sequencing data",
-    author="Tian, Luyi and Su, Shian and Dong, Xueyi and Amann-Zalcenstein, Daniela and Biben, Christine and Seidi, Azadeh and Hilton, Douglas J and Naik, Shalin H and Ritchie, Matthew E",
-    journal="PLoS computational biology",
-    volume="14",
-    number="8",
-    pages="e1006361",
-    year="2018",
-    publisher="Public Library of Science",
-    textVersion = "Tian, L., Su, S., Dong, X., Amann-Zalcenstein, D., Biben, C., Seidi, A., ... & Ritchie, M. E. (2018). scPipe: A flexible R/Bioconductor preprocessing pipeline for single-cell RNA-sequencing data. PLoS computational biology, 14(8), e1006361."
+bibentry(
+    bibtype = "Article",
+    key = "Tian2018",
+    title = "scPipe: A flexible R/Bioconductor preprocessing pipeline for single-cell RNA-sequencing data",
+    author = c(
+        person("Luyi", "Tian"),
+        person("Shian", "Su"),
+        person("Xueyi", "Dong"),
+        person("Daniela", "Amann-Zalcenstein"),
+        person("Christine", "Biben"),
+        person("Azadeh", "Seidi"),
+        person("Douglas J", "Hilton"),
+        person("Shalin H", "Naik"),
+        person("Matthew E", "Ritchie")
+    ),
+    journal = "PLoS Computational Biology",
+    volume = "14",
+    number = "8",
+    pages = "e1006361",
+    year = "2018",
+    publisher = "Public Library of Science",
+    doi = "10.1371/journal.pcbi.1006361",
+    url = "https://doi.org/10.1371/journal.pcbi.1006361"
 )
 
-citEntry(
-    entry = "article",
-    author = "Shanika L. Amarasinghe and Phil Yang and Oliver Voogd and Haoyu Yang and Mei R. M. Du and Shian Su and Daniel V. Brown and Jafar S. Jabbari and Rory Bowden and Matthew E. Ritchie",
-    title = "scPipe: An extended preprocessing pipeline for comprehensive single-cell ATAC-Seq data integration in R/Bioconductor",
+bibentry(
+    bibtype = "Article",
+    key = "Amarasinghe2023",
+    author = c(
+        person("Shanika L", "Amarasinghe"),
+        person("Phil", "Yang"),
+        person("Oliver", "Voogd"),
+        person("Haoyu", "Yang"),
+        person("Mei R M", "Du"),
+        person("Shian", "Su"),
+        person("Daniel V", "Brown"),
+        person("Jafar S", "Jabbari"),
+        person("Rory", "Bowden"),
+        person("Matthew E", "Ritchie")
+    ),
+    title = "scPipe: an extended preprocessing pipeline for comprehensive single-cell ATAC-Seq data integration in R/Bioconductor",
+    journal = "NAR Genomics and Bioinformatics",
+    volume = "5",
+    number = "4",
+    pages = "lqad105",
     year = "2023",
-    doi = "10.1101/2023.09.25.559230",
-    publisher = "Cold Spring Harbor Laboratory",
-    URL = "https://www.biorxiv.org/content/early/2023/09/25/2023.09.25.559230",
-    journal = "bioRxiv",
-    textVersion = "Amarasinghe, S. L., Yang, P., Voogd, O., Yang, H., Du, M., Su, S., ... & Ritchie, M. E. (2023). scPipe: An extended preprocessing pipeline for comprehensive single-cell ATAC-Seq data integration in R/Bioconductor. bioRxiv, 2023-09."
+    month = "12",
+    issn = "2631-9268",
+    doi = "10.1093/nargab/lqad105",
+    url = "https://doi.org/10.1093/nargab/lqad105"
 )
