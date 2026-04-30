@@ -1,14 +1,14 @@
 Package: scPipe
 Title: Pipeline for single cell multi-omic data pre-processing
 Date: 2022-10-12
-Version: 2.13.0
+Version: 2.13.1
 Type: Package
-Authors@R: c(person("Luyi", "Tian", role=c("aut"), email="tian.l@wehi.edu.au"), 
-        person("Shian", "Su", role=c("aut", "cre"), email="su.s@wehi.edu.au"), 
-        person("Shalin", "Naik", role=c("ctb"), email="naik.s@wehi.edu.au"), 
-        person("Shani", "Amarasinghe", role=c("aut"), email="amarasinghe.s@wehi.edu.au"), 
-        person("Oliver", "Voogd", role=c("aut"), email="voogd.o@wehi.edu.au"), 
-        person("Phil", "Yang", role=c("aut"), email="yang.p@wehi.edu.au"), 
+Authors@R: c(person("Luyi", "Tian", role=c("aut"), email="tian.l@wehi.edu.au"),
+        person("Shian", "Su", role=c("aut", "cre"), email="su.s@wehi.edu.au"),
+        person("Shalin", "Naik", role=c("ctb"), email="naik.s@wehi.edu.au"),
+        person("Shani", "Amarasinghe", role=c("aut"), email="amarasinghe.s@wehi.edu.au"),
+        person("Oliver", "Voogd", role=c("aut"), email="voogd.o@wehi.edu.au"),
+        person("Phil", "Yang", role=c("aut"), email="yang.p@wehi.edu.au"),
         person("Matthew", "Ritchie", role=c("ctb"), email="mritchie@wehi.edu.au"))
 biocViews: ImmunoOncology, Software, Sequencing, RNASeq, GeneExpression, SingleCell, Visualization,
         SequenceMatching, Preprocessing, QualityControl, GenomeAnnotation, DataImport
@@ -74,7 +74,7 @@ RoxygenNote: 7.2.3
 NeedsCompilation: yes
 URL: https://github.com/LuyiTian/scPipe
 BugReports: https://github.com/LuyiTian/scPipe
-Suggests: 
+Suggests:
     BiocStyle,
     DT,
     GenomicFeatures,
